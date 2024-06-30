@@ -20,12 +20,18 @@ import androidx.core.view.WindowInsetsCompat;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-public class ListActivity extends AppCompatActivity {
+public class ListActivity extends AppCompatActivity{
     ImageView imgIcon;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        EdgeToEdge.enable(this);
         setContentView(R.layout.activity_list);
+        ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main), (v, insets) -> {
+            Insets systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars());
+            v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom);
+            return insets;
+        });
 
         RecyclerView recyclerView = findViewById(R.id.recyclerview);
 
@@ -42,6 +48,8 @@ public class ListActivity extends AppCompatActivity {
         recyclerView.setAdapter(new UserAdapter(getApplicationContext(), users));
 
     }
+
+
 //        imgIcon = findViewById(R.id.icon);
 //        imgIcon.setOnClickListener(new View.OnClickListener() {
 //            @Override
@@ -53,7 +61,7 @@ public class ListActivity extends AppCompatActivity {
 //        });
 //    }
 
-        AlertDialog createDialog(){
+    AlertDialog createDialog(){
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
         builder.setMessage("i cannot take this anymore");
         builder.setPositiveButton("VIEW", new DialogInterface.OnClickListener() {
@@ -76,7 +84,5 @@ public class ListActivity extends AppCompatActivity {
             }
         });
         return builder.create();
-        }
-
-
+    }
 }
